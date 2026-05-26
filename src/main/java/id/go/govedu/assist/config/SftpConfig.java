@@ -3,11 +3,7 @@ package id.go.govedu.assist.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.file.remote.session.SessionFactory;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Configuration
 @RequiredArgsConstructor

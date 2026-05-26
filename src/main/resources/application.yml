@@ -63,6 +63,12 @@ sftp:
   remote-inbound-dir: /inbound
   remote-archive-dir: /archive
 
+# Konfigurasi API Bansos Eksternal
+bansos:
+  api:
+    base-url: https://mock-dtks.kemensos.go.id/api/v1
+    api-key: change-in-production-secret-key
+
 # Konfigurasi JWT
 jwt:
   secret: govedu-secret-key-change-in-production-min-256-bits

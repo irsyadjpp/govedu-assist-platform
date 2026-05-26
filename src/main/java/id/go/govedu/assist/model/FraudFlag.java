@@ -25,18 +25,28 @@ public class FraudFlag {
     private Application application;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "anomaly_type", nullable = false)
-    private AnomalyType anomalyType;
+    @Column(name = "flag_type", nullable = false)
+    private FlagType flagType;
+
+    @Column(name = "external_source")
+    private String externalSource;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "severity", nullable = false)
-    private Severity severity;
+    @Column(name = "status", nullable = false)
+    private FlagStatus status = FlagStatus.UNRESOLVED;
 
-    @Column(name = "is_resolved", nullable = false)
-    private Boolean isResolved = false;
+    @Column(name = "details", columnDefinition = "JSONB")
+    private String details;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resolved_by_admin_id")
+    private Admin resolvedByAdmin;
 
     @Column(name = "resolution_notes", columnDefinition = "TEXT")
     private String resolutionNotes;
+
+    @Column(name = "resolved_at")
+    private LocalDateTime resolvedAt;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
@@ -49,40 +59,34 @@ public class FraudFlag {
     public FraudFlag() {
     }
 
-    public FraudFlag(Application application, AnomalyType anomalyType, Severity severity) {
+    public FraudFlag(Application application, FlagType flagType, String externalSource) {
         this.application = application;
-        this.anomalyType = anomalyType;
-        this.severity = severity;
+        this.flagType = flagType;
+        this.externalSource = externalSource;
     }
 
-    public enum AnomalyType {
+    public enum FlagType {
+        DOUBLE_FUNDING,
         DUPLICATE_BANK,
         NIK_MISMATCH;
 
         public String getDescription() {
             return switch (this) {
+                case DOUBLE_FUNDING -> "Double funding detected";
                 case DUPLICATE_BANK -> "Duplicate bank account detected";
                 case NIK_MISMATCH -> "NIK mismatch detected";
             };
         }
     }
 
-    public enum Severity {
-        HIGH,
-        MEDIUM,
-        LOW;
+    public enum FlagStatus {
+        UNRESOLVED,
+        FALSE_ALARM,
+        CONFIRMED;
 
-        public int getPriorityScore() {
+        public boolean isFinal() {
             return switch (this) {
-                case HIGH -> 3;
-                case MEDIUM -> 2;
-                case LOW -> 1;
-            };
-        }
-
-        public boolean requiresImmediateAction() {
-            return switch (this) {
-                case HIGH -> true;
+                case FALSE_ALARM, CONFIRMED -> true;
                 default -> false;
             };
         }

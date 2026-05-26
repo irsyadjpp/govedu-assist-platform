@@ -12,13 +12,11 @@ public interface FraudFlagRepository extends JpaRepository<FraudFlag, UUID> {
 
     List<FraudFlag> findByApplicationId(UUID applicationId);
 
-    List<FraudFlag> findByApplicationIdAndIsResolvedFalse(UUID applicationId);
+    List<FraudFlag> findByApplicationIdAndStatus(UUID applicationId, FraudFlag.FlagStatus status);
 
-    List<FraudFlag> findByAnomalyType(FraudFlag.AnomalyType anomalyType);
+    List<FraudFlag> findByFlagType(FraudFlag.FlagType flagType);
 
-    List<FraudFlag> findBySeverity(FraudFlag.Severity severity);
+    List<FraudFlag> findByStatus(FraudFlag.FlagStatus status);
 
-    List<FraudFlag> findByIsResolvedFalse();
-
-    List<FraudFlag> findBySeverityAndIsResolvedFalse(FraudFlag.Severity severity);
+    List<FraudFlag> findByStatusNot(FraudFlag.FlagStatus status);
 }

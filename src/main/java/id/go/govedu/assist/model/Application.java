@@ -34,6 +34,9 @@ public class Application {
     @Column(name = "status", nullable = false)
     private ApplicationStatus status = ApplicationStatus.DRAFT;
 
+    @Column(name = "has_active_fraud_flag", nullable = false)
+    private Boolean hasActiveFraudFlag = false;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
@@ -108,7 +111,8 @@ public class Application {
         IN_REVIEW,
         APPROVED,
         DISBURSED,
-        REJECTED;
+        REJECTED,
+        SUSPENDED;
 
         public boolean isFinal() {
             return switch (this) {
