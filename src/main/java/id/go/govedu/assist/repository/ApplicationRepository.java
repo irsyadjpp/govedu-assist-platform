@@ -32,4 +32,6 @@ public interface ApplicationRepository extends JpaRepository<Application, UUID> 
 
     @Query("SELECT a FROM Application a WHERE (a.status = 'SUBMITTED' OR a.status = 'IN_REVIEW') AND a.updatedAt < :threshold")
     List<Application> findSlaBreachedApplications(@Param("threshold") LocalDateTime threshold);
+
+    Optional<Application> findActiveApplicationByUserId(UUID userId);
 }

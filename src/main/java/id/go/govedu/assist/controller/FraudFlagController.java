@@ -10,6 +10,9 @@ import id.go.govedu.assist.repository.FraudFlagRepository;
 import id.go.govedu.assist.security.JwtUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +27,18 @@ public class FraudFlagController {
 
     private final FraudFlagRepository fraudFlagRepository;
     private final ApplicationRepository applicationRepository;
+
+    @GetMapping("/duplicate-banks")
+    @PreAuthorize("hasRole('TIER_2_PPK') or hasRole('TIER_3_PPK')")
+    public ResponseEntity<ApiResponse<Page<FraudFlag>>> getDuplicateBankFlags(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<FraudFlag> flags = fraudFlagRepository.findByFlagType(FraudFlag.FlagType.DUPLICATE_BANK, pageable);
+
+        return ResponseEntity.ok(ApiResponse.success("Duplicate bank flags retrieved successfully", flags));
+    }
 
     @PostMapping("/{flag_id}/resolve")
     @PreAuthorize("hasRole('TIER_2_PPK') or hasRole('TIER_3_PPK')")
@@ -42,6 +57,11 @@ public class FraudFlagController {
             flag.setResolutionNotes(request.notes());
             application.setStatus(Application.ApplicationStatus.REJECTED);
         } else if ("FALSE_ALARM".equals(request.resolutionAction())) {
+            flag.setStatus(FraudFlag.FlagStatus.FALSE_ALARM);
+            flag.setResolutionNotes(request.notes());
+            application.setStatus(Application.ApplicationStatus.IN_REVIEW);
+            application.setHasActiveFraudFlag(false);
+        } else if ("OVERRIDE_ALLOW".equals(request.resolutionAction())) {
             flag.setStatus(FraudFlag.FlagStatus.FALSE_ALARM);
             flag.setResolutionNotes(request.notes());
             application.setStatus(Application.ApplicationStatus.IN_REVIEW);
