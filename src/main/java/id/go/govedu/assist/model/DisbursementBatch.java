@@ -32,6 +32,9 @@ public class DisbursementBatch {
     @Column(name = "total_applications", nullable = false)
     private Integer totalApplications;
 
+    @Column(name = "processed_count", nullable = false)
+    private Integer processedCount = 0;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private BatchStatus status = BatchStatus.PENDING;

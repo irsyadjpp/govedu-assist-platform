@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/auth/**", "/api/v1/admin/auth/login").permitAll()
                 // RBAC endpoints - Tier 3 only
                 .requestMatchers("/api/v1/admin/payments/bulk-approve").hasRole("TIER_3_PPK")
+                .requestMatchers("/api/v1/admin/applications/bulk-approve/**").hasRole("TIER_3_PPK")
                 // All other endpoints require authentication
                 .anyRequest().authenticated()
             )
