@@ -44,6 +44,16 @@ dukcapil:
     client-secret: mock-secret-key
     timeout: 30000 # 30 seconds
 
+# Konfigurasi Bank Himbara H2H
+bank:
+  himbara:
+    base-url: https://api.himbara.co.id/snap/v1
+    client-id: GOVEDU_ASSIST_01
+    client-secret: change-in-production-secret-key
+    partner-id: GOVEDU_ASSIST_01
+    channel-id: 95051
+    timeout: 30000 # 30 seconds
+
 # Konfigurasi JWT
 jwt:
   secret: govedu-secret-key-change-in-production-min-256-bits
