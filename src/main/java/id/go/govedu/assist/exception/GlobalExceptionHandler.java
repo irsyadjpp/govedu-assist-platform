@@ -66,6 +66,17 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error("AUTH_INVALID_CREDENTIALS", "Invalid email or password"));
     }
 
+    @ExceptionHandler(KycException.class)
+    public ResponseEntity<ApiResponse<Void>> handleKycException(KycException ex) {
+        HttpStatus status = switch (ex.getCode()) {
+            case "KYC_SYSTEM_ERROR" -> HttpStatus.SERVICE_UNAVAILABLE;
+            case "KYC_NIK_MISMATCH", "KYC_DATA_MISMATCH" -> HttpStatus.BAD_REQUEST;
+            default -> HttpStatus.INTERNAL_SERVER_ERROR;
+        };
+        return ResponseEntity.status(status)
+                .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -36,5 +36,13 @@ spring:
     jdbc:
       initialize-schema: always # Auto-create tabel meta-data Spring Batch
 
+# Konfigurasi Dukcapil API
+dukcapil:
+  api:
+    base-url: https://mock-dukcapil.internal.govedu/api/v1
+    client-id: govedu-assist-client
+    client-secret: mock-secret-key
+    timeout: 30000 # 30 seconds
+
 server:
   port: 8080
