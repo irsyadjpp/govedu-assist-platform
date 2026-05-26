@@ -108,6 +108,20 @@ public class Application {
         IN_REVIEW,
         APPROVED,
         DISBURSED,
-        REJECTED
+        REJECTED;
+
+        public boolean isFinal() {
+            return switch (this) {
+                case APPROVED, DISBURSED, REJECTED -> true;
+                default -> false;
+            };
+        }
+
+        public boolean isEditable() {
+            return switch (this) {
+                case DRAFT -> true;
+                default -> false;
+            };
+        }
     }
 }

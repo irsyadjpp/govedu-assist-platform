@@ -31,17 +31,13 @@ public class BankAccountService {
         // Create new bank account
         BankAccount bankAccount = new BankAccount();
         bankAccount.setUserApplicant(user);
-        bankAccount.setBankCode(request.getBank_code());
-        bankAccount.setAccountNumber(request.getAccount_number());
-        bankAccount.setAccountName(request.getAccount_name());
+        bankAccount.setBankCode(request.bank_code());
+        bankAccount.setAccountNumber(request.account_number());
+        bankAccount.setAccountName(request.account_name());
         bankAccount.setIsActive(true);
 
         bankAccount = bankAccountRepository.save(bankAccount);
 
-        return mapToBankAccountResponse(bankAccount);
-    }
-
-    private BankAccountResponse mapToBankAccountResponse(BankAccount bankAccount) {
         return new BankAccountResponse(
                 bankAccount.getId(),
                 bankAccount.getBankCode(),

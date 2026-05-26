@@ -1,22 +1,15 @@
 package id.go.govedu.assist.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse<T> {
-
-    private String status;
-    private String message;
-    private T data;
-    private String code;
-    private ValidationErrorDetails details;
-
+public record ApiResponse<T>(
+    String status,
+    String message,
+    T data,
+    String code,
+    ValidationErrorDetails details
+) {
     public static <T> ApiResponse<T> success(String message, T data) {
         return new ApiResponse<>("success", message, data, null, null);
     }
@@ -33,19 +26,8 @@ public class ApiResponse<T> {
         return new ApiResponse<>("error", message, null, code, details);
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class ValidationErrorDetails {
-        private ValidationErrorDetail[] errors;
-    }
+    public record ValidationErrorDetails(ValidationErrorDetail[] errors) {}
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class ValidationErrorDetail {
-        private String field;
-        private String error;
-    }
+    public record ValidationErrorDetail(String field, String error) {}
 }

@@ -74,6 +74,20 @@ public class DisbursementBatch {
         PENDING,
         PROCESSING,
         COMPLETED,
-        FAILED
+        FAILED;
+
+        public boolean isFinal() {
+            return switch (this) {
+                case COMPLETED, FAILED -> true;
+                default -> false;
+            };
+        }
+
+        public boolean isProcessing() {
+            return switch (this) {
+                case PROCESSING -> true;
+                default -> false;
+            };
+        }
     }
 }

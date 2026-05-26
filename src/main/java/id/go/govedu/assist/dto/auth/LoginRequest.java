@@ -2,19 +2,22 @@ package id.go.govedu.assist.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class LoginRequest {
+public record LoginRequest(
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
-    private String email;
+    String email,
 
     @NotBlank(message = "Password is required")
-    private String password;
+    String password
+) {
+    public LoginRequest {
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+        if (password == null || password.isBlank()) {
+            throw new IllegalArgumentException("Password is required");
+        }
+    }
 }

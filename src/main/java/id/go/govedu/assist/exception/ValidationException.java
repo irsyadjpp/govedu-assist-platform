@@ -1,7 +1,6 @@
 package id.go.govedu.assist.exception;
 
 import id.go.govedu.assist.dto.common.ApiResponse;
-import java.util.List;
 
 public class ValidationException extends RuntimeException {
 

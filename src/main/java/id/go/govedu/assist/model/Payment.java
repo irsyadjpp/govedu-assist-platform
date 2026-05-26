@@ -74,6 +74,20 @@ public class Payment {
     public enum PaymentStatus {
         QUEUED,
         SUCCESS,
-        FAILED
+        FAILED;
+
+        public boolean isFinal() {
+            return switch (this) {
+                case SUCCESS, FAILED -> true;
+                default -> false;
+            };
+        }
+
+        public boolean isPending() {
+            return switch (this) {
+                case QUEUED -> true;
+                default -> false;
+            };
+        }
     }
 }

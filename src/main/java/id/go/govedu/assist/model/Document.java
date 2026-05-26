@@ -54,6 +54,21 @@ public class Document {
     public enum DocumentType {
         KTP,
         KK,
-        TRANSCRIPT
+        TRANSCRIPT;
+
+        public boolean isRequired() {
+            return switch (this) {
+                case KTP, KK -> true;
+                default -> false;
+            };
+        }
+
+        public String getDisplayName() {
+            return switch (this) {
+                case KTP -> "Kartu Tanda Penduduk";
+                case KK -> "Kartu Keluarga";
+                case TRANSCRIPT -> "Transcript Nilai";
+            };
+        }
     }
 }

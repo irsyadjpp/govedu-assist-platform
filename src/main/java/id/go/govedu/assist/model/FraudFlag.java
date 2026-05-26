@@ -57,12 +57,34 @@ public class FraudFlag {
 
     public enum AnomalyType {
         DUPLICATE_BANK,
-        NIK_MISMATCH
+        NIK_MISMATCH;
+
+        public String getDescription() {
+            return switch (this) {
+                case DUPLICATE_BANK -> "Duplicate bank account detected";
+                case NIK_MISMATCH -> "NIK mismatch detected";
+            };
+        }
     }
 
     public enum Severity {
         HIGH,
         MEDIUM,
-        LOW
+        LOW;
+
+        public int getPriorityScore() {
+            return switch (this) {
+                case HIGH -> 3;
+                case MEDIUM -> 2;
+                case LOW -> 1;
+            };
+        }
+
+        public boolean requiresImmediateAction() {
+            return switch (this) {
+                case HIGH -> true;
+                default -> false;
+            };
+        }
     }
 }

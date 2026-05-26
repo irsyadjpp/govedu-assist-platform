@@ -102,6 +102,29 @@ public class Admin {
     public enum RoleTier {
         TIER_1_UNIV,
         TIER_2_GOV,
-        TIER_3_PPK
+        TIER_3_PPK;
+
+        public int getPriorityLevel() {
+            return switch (this) {
+                case TIER_1_UNIV -> 1;
+                case TIER_2_GOV -> 2;
+                case TIER_3_PPK -> 3;
+            };
+        }
+
+        public boolean canApprove() {
+            return switch (this) {
+                case TIER_1_UNIV, TIER_2_GOV -> true;
+                default -> false;
+            };
+        }
+
+        public String getDisplayName() {
+            return switch (this) {
+                case TIER_1_UNIV -> "University Level";
+                case TIER_2_GOV -> "Government Level";
+                case TIER_3_PPK -> "PPK Level";
+            };
+        }
     }
 }

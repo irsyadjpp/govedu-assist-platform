@@ -19,11 +19,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AuthException.class)
     public ResponseEntity<ApiResponse<Void>> handleAuthException(AuthException ex) {
-        if (ex.getCode().equals("AUTH_CONFLICT")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        HttpStatus status = switch (ex.getCode()) {
+            case "AUTH_CONFLICT" -> HttpStatus.CONFLICT;
+            default -> HttpStatus.UNAUTHORIZED;
+        };
+        return ResponseEntity.status(status)
                 .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
     }
 

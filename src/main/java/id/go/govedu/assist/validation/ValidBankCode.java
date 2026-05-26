@@ -1,6 +1,5 @@
 package id.go.govedu.assist.validation;
 
-import id.go.govedu.assist.constants.BankConstants;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
