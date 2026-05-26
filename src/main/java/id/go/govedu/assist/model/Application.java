@@ -1,5 +1,6 @@
 package id.go.govedu.assist.model;
 
+import id.go.govedu.assist.audit.ApplicationAuditListener;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "application")
+@EntityListeners(ApplicationAuditListener.class)
 public class Application {
 
     @Id
