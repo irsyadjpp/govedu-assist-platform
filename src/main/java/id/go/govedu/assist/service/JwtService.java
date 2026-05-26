@@ -33,10 +33,28 @@ public class JwtService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId.toString());
         claims.put("email", email);
+        claims.put("role", "ROLE_USER");
+        claims.put("userType", "USER");
 
         return Jwts.builder()
                 .claims(claims)
                 .subject(email)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSigningKey())
+                .compact();
+    }
+
+    public String generateAdminToken(UUID adminId, String nip, String role, String instCode) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", adminId.toString());
+        claims.put("role", "ROLE_" + role);
+        claims.put("instCode", instCode);
+        claims.put("userType", "ADMIN");
+
+        return Jwts.builder()
+                .claims(claims)
+                .subject(nip)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey())
@@ -66,9 +84,28 @@ public class JwtService {
                 .getPayload();
     }
 
+    public String extractSubject(String token) {
+        return extractClaims(token).getSubject();
+    }
+
     public UUID extractUserId(String token) {
         Claims claims = extractClaims(token);
         return UUID.fromString(claims.get("userId", String.class));
+    }
+
+    public String extractRole(String token) {
+        Claims claims = extractClaims(token);
+        return claims.get("role", String.class);
+    }
+
+    public String extractInstCode(String token) {
+        Claims claims = extractClaims(token);
+        return claims.get("instCode", String.class);
+    }
+
+    public String extractUserType(String token) {
+        Claims claims = extractClaims(token);
+        return claims.get("userType", String.class);
     }
 
     public String extractEmail(String token) {

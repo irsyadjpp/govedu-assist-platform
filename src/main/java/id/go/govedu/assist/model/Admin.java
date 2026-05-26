@@ -25,6 +25,9 @@ public class Admin {
     @Column(name = "nip", unique = true, nullable = false)
     private String nip;
 
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
+
     @Column(name = "name", nullable = false)
     private String name;
 
