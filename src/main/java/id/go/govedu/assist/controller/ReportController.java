@@ -34,7 +34,7 @@ public class ReportController {
             @AuthenticationPrincipal JwtUserDetails adminDetails,
             @RequestBody ReportGenerationRequest request) {
 
-        Admin admin = adminRepository.findById(UUID.fromString(adminDetails.getUserId()))
+        Admin admin = adminRepository.findById(adminDetails.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("Admin not found"));
 
         ReportTask task = new ReportTask(
@@ -79,6 +79,6 @@ public class ReportController {
                 task.getFileUrl()
         );
 
-        return ResponseEntity.ok(ApiResponse.success(response));
+        return ResponseEntity.ok(ApiResponse.success("Report task status retrieved successfully", response));
     }
 }

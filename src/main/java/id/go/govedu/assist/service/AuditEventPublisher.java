@@ -1,6 +1,7 @@
 package id.go.govedu.assist.service;
 
 import id.go.govedu.assist.kafka.AuditEventMessage;
+import id.go.govedu.assist.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;

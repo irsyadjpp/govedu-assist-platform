@@ -52,6 +52,7 @@ bank:
     client-secret: change-in-production-secret-key
     partner-id: GOVEDU_ASSIST_01
     channel-id: 95051
+    source-account-number: change-in-production-source-account
     timeout: 30000 # 30 seconds
 
 # Konfigurasi SFTP untuk Reconciliation
@@ -62,6 +63,11 @@ sftp:
   password: change-in-production
   remote-inbound-dir: /inbound
   remote-archive-dir: /archive
+
+# Konfigurasi S3
+s3:
+  bucket-name: govedu-assist-bucket
+  region: ap-southeast-1
 
 # Konfigurasi API Bansos Eksternal
 bansos:

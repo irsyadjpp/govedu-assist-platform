@@ -3,7 +3,7 @@ package id.go.govedu.assist.service;
 import id.go.govedu.assist.exception.IncompleteDocumentsException;
 import id.go.govedu.assist.exception.StateTransitionDeniedException;
 import id.go.govedu.assist.model.Application;
-import id.go.govedu.assist.model.DocumentType;
+import id.go.govedu.assist.model.Document.DocumentType;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -34,7 +34,7 @@ public class ApplicationStateMachine {
                 case REJECT -> Application.ApplicationStatus.REJECTED;
                 default -> throw new StateTransitionDeniedException(current.name(), event.name());
             };
-            case APPROVED, DISBURSED, REJECTED -> throw new StateTransitionDeniedException(current.name(), event.name());
+            case APPROVED, DISBURSED, REJECTED, SUSPENDED -> throw new StateTransitionDeniedException(current.name(), event.name());
         };
     }
 
@@ -62,7 +62,7 @@ public class ApplicationStateMachine {
             case DRAFT -> event == Event.SUBMIT;
             case SUBMITTED -> event == Event.CLAIM_FOR_REVIEW;
             case IN_REVIEW -> event == Event.APPROVE || event == Event.REJECT;
-            case APPROVED, DISBURSED, REJECTED -> false;
+            case APPROVED, DISBURSED, REJECTED, SUSPENDED -> false;
         };
     }
 }

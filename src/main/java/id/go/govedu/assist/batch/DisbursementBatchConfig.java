@@ -1,19 +1,20 @@
 package id.go.govedu.assist.batch;
 
+import id.go.govedu.assist.dto.batch.PaymentExecutionDTO;
 import id.go.govedu.assist.model.Payment;
 import id.go.govedu.assist.repository.PaymentRepository;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
+import org.springframework.batch.core.job.Job;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.data.builder.JpaPagingItemReaderBuilder;
+import org.springframework.batch.core.step.Step;
+import org.springframework.batch.core.step.builder.ChunkOrientedStepBuilder;
+import org.springframework.batch.infrastructure.item.ItemProcessor;
+import org.springframework.batch.infrastructure.item.ItemReader;
+import org.springframework.batch.infrastructure.item.ItemWriter;
+import org.springframework.batch.infrastructure.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -53,7 +54,7 @@ public class DisbursementBatchConfig {
                     payment.getIdempotencyKey(),
                     payment.getBankAccount().getAccountNumber(),
                     payment.getAmount(),
-                    payment.getBeneficiaryEmail()
+                    payment.getApplication().getUserApplicant().getEmail()
             );
         };
     }
@@ -91,8 +92,12 @@ public class DisbursementBatchConfig {
 
     @Bean
     public Step processPaymentStep() {
-        return new StepBuilder("processPaymentStep", jobRepository)
-                .<Payment, PaymentExecutionDTO>chunk(500, transactionManager)
+        return new ChunkOrientedStepBuilder<Payment, PaymentExecutionDTO>(
+                "processPaymentStep",
+                jobRepository,
+                500
+        )
+                .transactionManager(transactionManager)
                 .reader(paymentItemReader())
                 .processor(paymentItemProcessor())
                 .writer(paymentItemWriter())

@@ -40,6 +40,6 @@ public class BulkApprovalController {
     public ResponseEntity<ApiResponse<BulkApprovalStatusResponse>> getBulkApprovalStatus(
             @PathVariable("batch_id") UUID batchId) {
         BulkApprovalStatusResponse response = bulkApprovalService.getBulkApprovalStatus(batchId);
-        return ResponseEntity.ok(ApiResponse.success(response));
+        return ResponseEntity.ok(ApiResponse.success("Success", response));
     }
 }

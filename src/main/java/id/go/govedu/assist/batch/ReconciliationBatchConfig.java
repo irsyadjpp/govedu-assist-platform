@@ -5,17 +5,17 @@ import id.go.govedu.assist.model.Payment;
 import id.go.govedu.assist.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.job.Job;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
-import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.core.step.Step;
+import org.springframework.batch.core.step.builder.ChunkOrientedStepBuilder;
+import org.springframework.batch.infrastructure.item.ItemProcessor;
+import org.springframework.batch.infrastructure.item.ItemWriter;
+import org.springframework.batch.infrastructure.item.file.FlatFileItemReader;
+import org.springframework.batch.infrastructure.item.file.builder.FlatFileItemReaderBuilder;
+import org.springframework.batch.infrastructure.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -89,8 +89,12 @@ public class ReconciliationBatchConfig {
 
     @Bean
     public Step reconciliationStep() {
-        return new StepBuilder("reconciliationStep", jobRepository)
-                .<BankReconLineDTO, Payment>chunk(500, transactionManager)
+        return new ChunkOrientedStepBuilder<BankReconLineDTO, Payment>(
+                "reconciliationStep",
+                jobRepository,
+                500
+        )
+                .transactionManager(transactionManager)
                 .reader(reconFileReader(null))
                 .processor(reconItemProcessor())
                 .writer(reconItemWriter())

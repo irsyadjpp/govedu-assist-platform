@@ -5,7 +5,10 @@ import id.go.govedu.assist.model.AuditLog;
 import id.go.govedu.assist.repository.AuditLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +26,6 @@ public class AuditController {
             @RequestParam String entityName,
             @RequestParam UUID entityId) {
         List<AuditLog> logs = auditLogRepository.findByEntityNameAndEntityIdOrderByCreatedAtDesc(entityName, entityId);
-        return ApiResponse.success(logs);
+        return ApiResponse.success("Success", logs);
     }
 }

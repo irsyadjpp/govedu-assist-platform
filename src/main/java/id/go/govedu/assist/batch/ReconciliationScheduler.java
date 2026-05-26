@@ -1,11 +1,12 @@
 package id.go.govedu.assist.batch;
 
+import id.go.govedu.assist.service.SftpFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.job.Job;
+import org.springframework.batch.core.job.parameters.JobParameters;
+import org.springframework.batch.core.job.parameters.JobParametersBuilder;
+import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ReconciliationScheduler {
 
-    private final JobLauncher jobLauncher;
+    private final JobOperator jobOperator;
     private final Job reconciliationJob;
     private final SftpFileService sftpFileService;
 
@@ -37,7 +38,7 @@ public class ReconciliationScheduler {
                     .addString("JobID", String.valueOf(System.currentTimeMillis()))
                     .toJobParameters();
 
-            jobLauncher.run(reconciliationJob, params);
+            jobOperator.start(reconciliationJob, params);
 
             // Archive file after processing
             String fileName = new java.io.File(filePath).getName();

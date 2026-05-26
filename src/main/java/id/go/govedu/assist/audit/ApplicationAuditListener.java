@@ -4,7 +4,6 @@ import id.go.govedu.assist.model.Application;
 import id.go.govedu.assist.service.AuditEventPublisher;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostUpdate;
-import jakarta.persistence.PostRemove;
 import jakarta.persistence.PreRemove;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

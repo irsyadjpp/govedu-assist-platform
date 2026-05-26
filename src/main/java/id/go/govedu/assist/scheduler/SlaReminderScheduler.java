@@ -41,7 +41,7 @@ public class SlaReminderScheduler {
         Map<String, List<UUID>> groupedByInstitution = new HashMap<>();
         for (var app : breachedApplications) {
             groupedByInstitution
-                    .computeIfAbsent(app.getUserApplicant().getInstitutionCode(), k -> new java.util.ArrayList<>())
+                    .computeIfAbsent(app.getProgram().getInstitutionCode(), k -> new java.util.ArrayList<>())
                     .add(app.getId());
         }
 

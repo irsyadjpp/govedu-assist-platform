@@ -7,6 +7,7 @@ import id.go.govedu.assist.model.Payment;
 import id.go.govedu.assist.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
@@ -22,6 +23,9 @@ public class BankTransferService {
     private final RestClient bankHimbaraClient;
     private final PaymentRepository paymentRepository;
 
+    @Value("${bank.himbara.source-account-number:}")
+    private String sourceAccountNumber;
+
     @Transactional
     public Payment executeTransfer(UUID paymentId) {
         var payment = paymentRepository.findById(paymentId)
@@ -34,9 +38,9 @@ public class BankTransferService {
                         payment.getAmount().toString(),
                         "IDR"
                 ),
-                payment.getBeneficiaryAccountNumber(),
-                payment.getBeneficiaryEmail(),
-                payment.getSourceAccountNumber(),
+                payment.getBankAccount().getAccountNumber(),
+                payment.getApplication().getUserApplicant().getEmail(),
+                sourceAccountNumber,
                 OffsetDateTime.now(),
                 "Pencairan Beasiswa KIP-K"
         );

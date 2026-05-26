@@ -35,6 +35,9 @@ public class ApprovalHistory {
     @Column(name = "new_status", nullable = false)
     private Application.ApplicationStatus newStatus;
 
+    @Column(name = "action", nullable = false)
+    private String action;
+
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 

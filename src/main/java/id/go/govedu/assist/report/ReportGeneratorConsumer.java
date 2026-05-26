@@ -1,7 +1,6 @@
 package id.go.govedu.assist.report;
 
 import id.go.govedu.assist.kafka.ReportTaskMessage;
-import id.go.govedu.assist.model.AuditLog;
 import id.go.govedu.assist.model.ReportTask;
 import id.go.govedu.assist.repository.AuditLogRepository;
 import id.go.govedu.assist.repository.ReportTaskRepository;
@@ -19,7 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

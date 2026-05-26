@@ -18,16 +18,16 @@ public class AuditLogConsumer {
     @KafkaListener(topics = "govedu-audit-events", groupId = "audit-storage-group")
     public void consumeAudit(AuditEventMessage message) {
         try {
-            AuditLog log = new AuditLog();
-            log.setEntityName(message.entityName());
-            log.setEntityId(message.entityId());
-            log.setAction(AuditLog.AuditAction.valueOf(message.action()));
-            log.setActorId(message.actorId());
-            log.setIpAddress(message.ipAddress());
-            log.setPayloadBefore(message.payloadBefore());
-            log.setPayloadAfter(message.payloadAfter());
+            AuditLog auditLog = new AuditLog();
+            auditLog.setEntityName(message.entityName());
+            auditLog.setEntityId(message.entityId());
+            auditLog.setAction(AuditLog.AuditAction.valueOf(message.action()));
+            auditLog.setActorId(message.actorId());
+            auditLog.setIpAddress(message.ipAddress());
+            auditLog.setPayloadBefore(message.payloadBefore());
+            auditLog.setPayloadAfter(message.payloadAfter());
 
-            auditLogRepository.save(log);
+            auditLogRepository.save(auditLog);
             log.debug("Audit log saved for {}: {}", message.entityName(), message.entityId());
         } catch (Exception e) {
             log.error("Failed to save audit log for {}: {}", message.entityName(), message.entityId(), e);
