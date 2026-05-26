@@ -1,6 +1,5 @@
 package id.go.govedu.assist.dto.application;
 
-import id.go.govedu.assist.model.Application;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

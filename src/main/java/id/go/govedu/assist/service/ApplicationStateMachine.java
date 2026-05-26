@@ -3,7 +3,6 @@ package id.go.govedu.assist.service;
 import id.go.govedu.assist.exception.IncompleteDocumentsException;
 import id.go.govedu.assist.exception.StateTransitionDeniedException;
 import id.go.govedu.assist.model.Application;
-import id.go.govedu.assist.model.Document;
 import id.go.govedu.assist.model.DocumentType;
 import org.springframework.stereotype.Component;
 
