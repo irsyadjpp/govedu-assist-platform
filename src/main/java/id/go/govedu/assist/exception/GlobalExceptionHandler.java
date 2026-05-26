@@ -77,6 +77,24 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
     }
 
+    @ExceptionHandler(StateTransitionDeniedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleStateTransitionDenied(StateTransitionDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(IncompleteDocumentsException.class)
+    public ResponseEntity<ApiResponse<Void>> handleIncompleteDocuments(IncompleteDocumentsException ex) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(ReviewerMismatchException.class)
+    public ResponseEntity<ApiResponse<Void>> handleReviewerMismatch(ReviewerMismatchException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
