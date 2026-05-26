@@ -20,22 +20,23 @@ public class AuthService {
 
     private final UserApplicantRepository userApplicantRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Transactional
     public UserProfileResponse register(RegisterRequest request) {
-        if (userApplicantRepository.existsByNik(request.getNik())) {
+        if (userApplicantRepository.existsByNik(request.nik())) {
             throw new AuthException("AUTH_CONFLICT", "NIK is already registered");
         }
 
-        if (userApplicantRepository.existsByEmail(request.getEmail())) {
+        if (userApplicantRepository.existsByEmail(request.email())) {
             throw new AuthException("AUTH_CONFLICT", "Email is already registered");
         }
 
         UserApplicant user = new UserApplicant();
-        user.setNik(request.getNik());
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setNik(request.nik());
+        user.setName(request.name());
+        user.setEmail(request.email());
+        user.setPasswordHash(passwordEncoder.encode(request.password()));
         user.setEkycVerified(false);
 
         user = userApplicantRepository.save(user);
@@ -44,18 +45,19 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        UserApplicant user = userApplicantRepository.findByEmail(request.getEmail())
+        UserApplicant user = userApplicantRepository.findByEmail(request.email())
                 .orElseThrow(() -> new AuthException("AUTH_INVALID_CREDENTIALS", "Invalid email or password"));
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+        if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
             throw new AuthException("AUTH_INVALID_CREDENTIALS", "Invalid email or password");
         }
 
-        // TODO: Implement JWT token generation
-        // For now, return mock tokens
+        String accessToken = jwtService.generateToken(user.getId(), user.getEmail());
+        String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
+
         return new AuthResponse(
-                "mock_access_token_" + UUID.randomUUID(),
-                "mock_refresh_token_" + UUID.randomUUID(),
+                accessToken,
+                refreshToken,
                 3600L,
                 "Bearer"
         );

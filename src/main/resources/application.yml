@@ -44,5 +44,11 @@ dukcapil:
     client-secret: mock-secret-key
     timeout: 30000 # 30 seconds
 
+# Konfigurasi JWT
+jwt:
+  secret: govedu-secret-key-change-in-production-min-256-bits
+  expiration: 3600000 # 1 hour in milliseconds
+  refresh-expiration: 604800000 # 7 days in milliseconds
+
 server:
   port: 8080
