@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: govedu-assist-platform
+
+  # Koneksi Database
+  datasource:
+    url: jdbc:postgresql://localhost:5432/govedu_db
+    username: govuser
+    password: govpassword
+    driver-class-name: org.postgresql.Driver
+
+  # Konfigurasi JPA / Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: update # Ganti ke 'validate' di production
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # Konfigurasi Kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: govedu-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+  # Konfigurasi Spring Batch
+  batch:
+    jdbc:
+      initialize-schema: always # Auto-create tabel meta-data Spring Batch
+
+server:
+  port: 8080
