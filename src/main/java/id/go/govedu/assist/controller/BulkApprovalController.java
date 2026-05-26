@@ -1,5 +1,6 @@
 package id.go.govedu.assist.controller;
 
+import id.go.govedu.assist.annotation.Idempotent;
 import id.go.govedu.assist.dto.bulk.BulkApprovalRequest;
 import id.go.govedu.assist.dto.bulk.BulkApprovalResponse;
 import id.go.govedu.assist.dto.bulk.BulkApprovalStatusResponse;
@@ -25,6 +26,7 @@ public class BulkApprovalController {
 
     @PostMapping
     @PreAuthorize("hasRole('TIER_3_PPK')")
+    @Idempotent
     public ResponseEntity<ApiResponse<BulkApprovalResponse>> initiateBulkApproval(
             @AuthenticationPrincipal JwtUserDetails adminDetails,
             @Valid @RequestBody BulkApprovalRequest request) {

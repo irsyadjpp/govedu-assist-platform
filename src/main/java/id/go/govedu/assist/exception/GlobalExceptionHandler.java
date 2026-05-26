@@ -101,6 +101,24 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
     }
 
+    @ExceptionHandler(MissingIdempotencyKeyException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMissingIdempotencyKey(MissingIdempotencyKeyException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(ConcurrentRequestException.class)
+    public ResponseEntity<ApiResponse<Void>> handleConcurrentRequest(ConcurrentRequestException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(IdempotencyMismatchException.class)
+    public ResponseEntity<ApiResponse<Void>> handleIdempotencyMismatch(IdempotencyMismatchException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(ex.getCode(), ex.getMessage()));
+    }
+
     @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
     public ResponseEntity<ApiResponse<Void>> handleAccessDenied(org.springframework.security.access.AccessDeniedException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
