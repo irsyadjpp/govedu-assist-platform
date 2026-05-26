@@ -4,7 +4,6 @@ import id.go.govedu.assist.dto.delegation.CreateDelegationRequest;
 import id.go.govedu.assist.dto.delegation.DelegationResponse;
 import id.go.govedu.assist.dto.delegation.RevokeDelegationResponse;
 import id.go.govedu.assist.exception.DelegationTierMismatchException;
-import id.go.govedu.assist.model.Admin;
 import id.go.govedu.assist.model.Delegation;
 import id.go.govedu.assist.repository.AdminRepository;
 import id.go.govedu.assist.repository.DelegationRepository;

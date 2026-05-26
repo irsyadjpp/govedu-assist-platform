@@ -1,7 +1,6 @@
 package id.go.govedu.assist.aspect;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import id.go.govedu.assist.annotation.Idempotent;
 import id.go.govedu.assist.exception.ConcurrentRequestException;
 import id.go.govedu.assist.exception.IdempotencyMismatchException;
 import id.go.govedu.assist.exception.MissingIdempotencyKeyException;

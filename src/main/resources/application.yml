@@ -54,6 +54,15 @@ bank:
     channel-id: 95051
     timeout: 30000 # 30 seconds
 
+# Konfigurasi SFTP untuk Reconciliation
+sftp:
+  host: sftp.himbara.co.id
+  port: 22
+  username: govedu_user
+  password: change-in-production
+  remote-inbound-dir: /inbound
+  remote-archive-dir: /archive
+
 # Konfigurasi JWT
 jwt:
   secret: govedu-secret-key-change-in-production-min-256-bits

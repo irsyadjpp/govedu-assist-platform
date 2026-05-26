@@ -1,7 +1,6 @@
 package id.go.govedu.assist.scheduler;
 
 import id.go.govedu.assist.kafka.SlaReminderEvent;
-import id.go.govedu.assist.model.Application;
 import id.go.govedu.assist.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor

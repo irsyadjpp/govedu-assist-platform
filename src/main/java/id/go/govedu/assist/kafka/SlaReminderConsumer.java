@@ -1,6 +1,5 @@
 package id.go.govedu.assist.kafka;
 
-import id.go.govedu.assist.model.Admin;
 import id.go.govedu.assist.model.Delegation;
 import id.go.govedu.assist.repository.AdminRepository;
 import id.go.govedu.assist.repository.DelegationRepository;
@@ -10,7 +9,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Component

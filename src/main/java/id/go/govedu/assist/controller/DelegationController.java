@@ -1,9 +1,9 @@
 package id.go.govedu.assist.controller;
 
+import id.go.govedu.assist.dto.common.ApiResponse;
 import id.go.govedu.assist.dto.delegation.CreateDelegationRequest;
 import id.go.govedu.assist.dto.delegation.DelegationResponse;
 import id.go.govedu.assist.dto.delegation.RevokeDelegationResponse;
-import id.go.govedu.assist.dto.common.ApiResponse;
 import id.go.govedu.assist.security.JwtUserDetails;
 import id.go.govedu.assist.service.DelegationService;
 import jakarta.validation.Valid;

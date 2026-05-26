@@ -1,8 +1,7 @@
 package id.go.govedu.assist.kafka;
 
-import id.go.govedu.assist.model.Admin;
-import id.go.govedu.assist.model.ApprovalHistory;
 import id.go.govedu.assist.model.Application;
+import id.go.govedu.assist.model.ApprovalHistory;
 import id.go.govedu.assist.model.DisbursementBatch;
 import id.go.govedu.assist.repository.AdminRepository;
 import id.go.govedu.assist.repository.ApplicationRepository;
